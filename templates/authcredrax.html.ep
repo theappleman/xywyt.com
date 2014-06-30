@@ -1,0 +1,9 @@
+% title 'rackspace credentials';
+% layout 'default';
+<h3>rackspace credentials</h3>
+% if (my $ac = session 'rax_token') {
+<b>You are logged in to rackspace</b>
+% } else {
+You are not logged in to rackspace
+% }
+

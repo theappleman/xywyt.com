@@ -1,0 +1,25 @@
+% title 'xywyt';
+% layout 'default';
+% if (session 'access_token') {
+%= link_to 'fb home stream' => '/home/fb'
+(uncached)
+% }
+<h2>credentials</h2>
+<%= link_to twitter => '/auth/cred/twitter' %>
+<br />
+<!--
+<%= link_to facebook => '/auth/cred/fb' %>
+<br />
+<%= link_to rackspace => '/auth/cred/rax' %>
+<br />
+-->
+Credentials are stored in a signed cookie and not on the server.
+% unless (session 'token') {
+<h2>login</h2>
+%= link_to twitter => '/login/twitter'
+% }
+%# } unless (session 'access_token') {
+%#= link_to facebook => '/login/fb'
+%# } unless (session 'rax_token') {
+%#= link_to rackspace => '/login/rax'
+

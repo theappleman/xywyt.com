@@ -1,0 +1,8 @@
+% title 'add friend', layout 'default';
+%= form_for 'http://www.facebook.com/dialog/friends/' => begin
+Friend id: <%= text_field 'id' %>
+%= hidden_field app_id => $ENV{FBAPPID}
+%= hidden_field redirect_uri => url_for('/home/fb')->to_abs
+%= submit_button
+%= end
+

@@ -1,0 +1,11 @@
+% title 'twitter oauth credentials';
+% layout 'default';
+% my $ac = session 'token';
+% my $ts = session 'token_secret';
+<h3>twitter credentials</h3>
+% if (my $ac = session 'token') {
+<b>You are logged in to twitter</b>
+% } else {
+You are not logged in to twitter
+% }
+

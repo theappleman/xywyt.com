@@ -1,0 +1,20 @@
+% title 'tweets', layout 'default';
+<div class="list-group">
+	% foreach my $tweet (@{$tweets}) {
+		% if ($tweet->{full_name}) {
+			%= link_to $tweet->{full_name} => "/home/twitter?uri=https://api.twitter.com/1.1/lists/statuses.json%3Flist_id=". $tweet->{id} => (class => 'list-group-item')
+			<br />
+		% } else {
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					%= link_to '@' . $tweet->{user}->{screen_name}  => '/home/twitter?uri=https://api.twitter.com/1.1/statuses/user_timeline.json%3Fscreen_name=' . $tweet->{user}->{screen_name} => (title => $tweet->{user}->{name})
+					<%= uts_to_iso $tweet->{created_at}%>+0000
+				</div>
+				<div class="panel-body">
+					%== makelink $tweet->{text}
+				</div>
+			</div>
+		% }
+	% }
+</div>
+

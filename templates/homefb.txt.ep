@@ -1,0 +1,6 @@
+% foreach my $post (@{$posts}) {
+%= $post->{from}->{name}
+%= $post->{message}
+%= $post->{created_time}
+% }
+

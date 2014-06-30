@@ -1,0 +1,5 @@
+% title 'session counter tester';
+% layout 'default';
+Counter: <%= session 'counter' %><br />
+Odd? <%= session 'count' %>
+

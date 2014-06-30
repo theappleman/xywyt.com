@@ -1,0 +1,12 @@
+% title 'facebook access token';
+% layout 'default';
+<h3>facebook credentials</h3>
+% if (my $msg = flash 'message') {
+  <b><%= $msg %></b><br>
+% }
+% if (my $ac = session 'access_token') {
+<b>You are logged in to facebook</b>
+% } else {
+You are not logged in to facebook
+% }
+

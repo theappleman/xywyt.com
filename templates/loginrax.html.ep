@@ -1,0 +1,8 @@
+% title 'rackspace cloud api login';
+% layout 'default';
+%= form_for '/auth/rax' => begin
+Username: <%= text_field 'username' %><br />
+API Key: <%= text_field 'api-key' %><br />
+%= submit_button
+% end
+

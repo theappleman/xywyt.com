@@ -1,0 +1,6 @@
+% foreach my $tweet (@{$tweets}) {
+@<%= $tweet->{screen_name} %>
+<%= $tweet->{text} %>
+%= $tweet->{created_at}
+% }
+

@@ -1,0 +1,22 @@
+% title 'facebook stream', layout 'default';
+%= form_for post => (method => 'POST') => begin
+Message: <%= text_field 'message' %>
+%= submit_button
+%= end
+% foreach my $post (@{$posts}) {
+<div>
+% if ($post->{message}) {
+%= $post->{from}->{name}
+<b>
+%= $post->{message}
+</b>
+% } else {
+<i>
+%= $post->{story}
+</i>
+% }
+%= $post->{created_time}
+</div>
+% }
+%= link_to 'add friend' => '/add/friend'
+
