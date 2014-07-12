@@ -3,7 +3,6 @@
 	% foreach my $tweet (@{$tweets}) {
 		% if ($tweet->{full_name}) {
 			%= link_to $tweet->{full_name} => "/home/twitter?uri=https://api.twitter.com/1.1/lists/statuses.json%3Flist_id=". $tweet->{id} => (class => 'list-group-item')
-			<br />
 		% } else {
 			<div class="panel panel-default">
 				<div class="panel-heading">
