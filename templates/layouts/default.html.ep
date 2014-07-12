@@ -24,15 +24,10 @@ body { padding-top: 70px }
 <div class="navbar-collapse collapse navbar-responsive-collapse">
 <ul class="nav navbar-nav">
 % if (session 'token') {
-	<li class="dropdown">
-	<a href="/home/twitter" data-target="#" class="dropdown-toggle" data-toggle="dropdown">twitter<b class="caret"></b></a>
-	<ul class="dropdown-menu">
-		<li><%= link_to incoming=> "/home/twitter" %></li>
-		<li><%= link_to replies => "/home/twitter?uri=https://api.twitter.com/1.1/statuses/mentions_timeline.json" %></li>
-		<li><%= link_to user => "/home/twitter?uri=https://api.twitter.com/1.1/statuses/user_timeline.json" %></li>
-		<li class="divider"></li>
-		<li><%= link_to lists => "/home/twitter?uri=https://api.twitter.com/1.1/lists/list.json" %></li>
-	</ul>
+	<li><%= link_to incoming=> "/home/twitter" %></li>
+	<li><%= link_to replies => "/home/twitter?uri=https://api.twitter.com/1.1/statuses/mentions_timeline.json" %></li>
+	<li><%= link_to user => "/home/twitter?uri=https://api.twitter.com/1.1/statuses/user_timeline.json" %></li>
+	<li><%= link_to lists => "/home/twitter?uri=https://api.twitter.com/1.1/lists/list.json" %><span class="caret"></span></li>
 	</li>
 % }
 </ul>
