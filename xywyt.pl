@@ -65,6 +65,37 @@ helper 'makelink' => sub {
 	return $text;
 };
 
+helper 'tv' => sub {
+	my $self = shift;
+	my $valid = 1; ## true
+	$valid = ($valid and defined($ENV{TWCONSKEY})) ? 1 : 0;
+	$valid = ($valid and defined($ENV{TWCONSSECRET})) ? 1 : 0;
+	return $valid;
+};
+
+helper 'fv' => sub {
+	my $self = shift;
+	my $valid = 1; ## true
+	$valid = ($valid and defined($ENV{FBAPPID})) ? 1 : 0;
+	$valid = ($valid and defined($ENV{FBAPPSECRET})) ? 1 : 0;
+	return $valid;
+};
+
+helper 'tlv' => sub {
+	my $self = shift;
+	my $valid = 1;
+	$valid = ($valid and defined($self->session("token"))) ? 1 : 0;
+	$valid = ($valid and defined($self->session("token_secret"))) ? 1 : 0;
+	return $valid;
+};
+
+helper 'flv' => sub {
+	my $self = shift;
+	my $valid = 1;
+	$valid = ($valid and defined($self->session("access_token"))) ? 1 : 0;
+	return $valid;
+};
+
 #sub uts2isomap {
 #	my $hash = shift;
 #	$hash->{created_at} = uts_to_iso(str2time($hash->{created_at}));
@@ -106,6 +137,11 @@ get '/counter' => sub {
 
 get '/login/fb' => sub {
 	my $self = shift;
+	unless ($self->fv()) {
+		$self->flash(message => "No facebook credentials");
+		$self->redirect_to("/");
+		return;
+	}
 	my $host = $self->req->url->to_abs->host;
 	my $loc = 'https://www.facebook.com/dialog/oauth?client_id='. $ENV{FBAPPID} .'&redirect_uri=https://'. $host .'/auth/fb&scope=publish_actions,read_stream';
 #	$self->res->headers->header('Location' => $loc);
@@ -118,6 +154,11 @@ get '/login/fb' => sub {
 
 get '/login/twitter' => sub {
 	my $self = shift;
+	unless ($self->tv()) {
+		$self->flash(message => "No twitter credentials");
+		$self->redirect_to("/");
+		return;
+	}
 	my $host = $self->req->url->to_abs->host;
 	my $loc = noc($host)->authorize_url;
 #	$self->res->headers->header('Location' => $loc);
