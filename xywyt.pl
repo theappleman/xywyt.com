@@ -285,8 +285,8 @@ get '/logout' => sub {
 	$self->redirect_to('/');
 };
 
-post '/tweet' => sub {
-	my $self = shift;
+helper 'tweet' => sub {
+	my ($self, $status) = @_;
 	my $ua = LWP::Authen::OAuth->new(
 		oauth_consumer_key => $ENV{TWCONSKEY},
 		oauth_consumer_secret => $ENV{TWCONSSECRET},
@@ -294,7 +294,6 @@ post '/tweet' => sub {
 		oauth_token_secret => $self->session->{token_secret},
 	);
 	$ua->default_header(content_type => 'application/x-www-form-urlencoded');
-	my $status = $self->param('status') || undef;
 	#$status =~ s/'/&lquot;/g;
 	if (defined $status && $status) {
 		my $res = $ua->post('https://api.twitter.com/1.1/statuses/update.json',
@@ -311,11 +310,10 @@ post '/tweet' => sub {
 	}
 };
 
-post '/post' => sub {
-	my $self = shift;
+helper 'fbpost' => sub {
+	my ($self, $message) = @_;
 	my $ua = Mojo::UserAgent->new;
 	my $url = Mojo::URL->new('https://graph.facebook.com/me/feed');
-	my $message = $self->param('message') || undef;
 	if (defined $message && $message) {
 		$url->query({
 			message => $message,
@@ -329,6 +327,20 @@ post '/post' => sub {
 		}
 		$self->redirect_to('/home/fb');
 	}
+};
+
+post '/post' => sub {
+	my $self = shift;
+	if (defined $self->param('message') && $self->param('message')) {
+		my $message = $self->param('message');
+		if ($self->tv and $self->tlv) {
+			$self->tweet($message);
+		}
+		if ($self->fv and $self->flv) {
+			$self->fbpost($message);
+		}
+	}
+	$self->redirect_to("/");
 };
 
 get '/home/twitter' => sub {
