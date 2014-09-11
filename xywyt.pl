@@ -370,7 +370,8 @@ get '/home/twitter' => sub {
 get '/home/fb' => sub {
 	my $self = shift;
 	my $ua = Mojo::UserAgent->new;
-	my $url = Mojo::URL->new('https://graph.facebook.com/me/home');
+	my $uri = $self->param('uri') || 'https://graph.facebook.com/me/home';
+	my $url = Mojo::URL->new($uri);
 	$url->query({
 		access_token => $self->session->{access_token}
 	});
