@@ -119,9 +119,25 @@ sub noc {
 
 get '/' => sub {
 	my $self = shift;
-	my $host = $self->req->url->to_abs->host;
-	$self->stash(host => $host);
-	$self->render('index');
+	my $user = $ENV{TWDEFAULTUSER} || "applehq";
+	my $url = $self->param('uri') || 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=' . $user;
+	my $ua = LWP::Authen::OAuth->new(
+		oauth_consumer_key => $ENV{TWCONSKEY},
+		oauth_consumer_secret => $ENV{TWCONSSECRET},
+	);
+	my $res = $ua->get($url);
+	if ($res->is_success) {
+		my $data = j($res->content);
+		#$data = map uts2isomap, $data;
+		warn dumper $res if $self->param('debug');
+		#warn dumper $data if $self->param('debug');
+		$data = [$data] if ref($data) ne 'ARRAY';
+		$self->render('hometwitter', tweets => $data);
+	} else {
+		warn dumper $res if $self->param('debug');
+		$self->flash(message => "An error fetching from twitter has occured: ". j($res->content)->{errors}->[0]->{message});
+		$self->render('index');
+	}
 };
 
 get '/counter' => sub {
@@ -370,7 +386,8 @@ get '/home/twitter' => sub {
 get '/home/fb' => sub {
 	my $self = shift;
 	my $ua = Mojo::UserAgent->new;
-	my $url = Mojo::URL->new('https://graph.facebook.com/me/home');
+	my $uri = $self->param('uri') || 'https://graph.facebook.com/me/home';
+	my $url = Mojo::URL->new($uri);
 	$url->query({
 		access_token => $self->session->{access_token}
 	});
