@@ -1,0 +1,20 @@
+diff --git a/lib/perl5/Net/OAuth/AccessTokenRequest.pm b/lib/perl5/Net/OAuth/AccessTokenRequest.pm
+index 0169104..868fd93 100644
+--- a/lib/perl5/Net/OAuth/AccessTokenRequest.pm
++++ b/lib/perl5/Net/OAuth/AccessTokenRequest.pm
+@@ -4,7 +4,7 @@ use strict;
+ use base 'Net::OAuth::Request';
+ 
+ __PACKAGE__->add_required_message_params(qw/token/);
+-__PACKAGE__->add_required_api_params(qw/token_secret/);
++#__PACKAGE__->add_required_api_params(qw/token_secret/);
+ sub allow_extra_params {0}
+ sub sign_message {1}
+ 
+@@ -29,4 +29,4 @@ under the same terms as Perl itself.
+ 
+ =cut
+ 
+-1;
+\ No newline at end of file
++1;
